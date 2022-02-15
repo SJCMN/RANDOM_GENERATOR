@@ -3,10 +3,9 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-
   //new property within the class
 
   // the equivalent code is:
@@ -14,18 +13,45 @@ export class AppComponent {
   //   this.password = '';
   // }
 
+  pwdLength = 0;
   includeLetters = false;
   includeNumbers = false;
   includeSymbols = false;
-  password ='';
+  password = '';
 
+  // value variable is typeof string
 
-  // a method a to trigger a console log every time a user clicks on a button 
+  onChangeLength(value: string) {
+    console.log(value);
+    const parsedValue = parseInt(value);
+    if (!isNaN(parsedValue)) {
+      this.pwdLength = parsedValue;
+    }
+  }
+
+  // a method a to trigger a console log every time a user clicks on a button
   onButtonClick() {
-    this.password = 'MY PASSWORD!!!';
-    console.log("Include letters:", this.includeLetters);
-    console.log("Include numbers:", this.includeNumbers);
-    console.log("Include symbols:", this.includeSymbols);
+    const numbers = '1234567890';
+    const letters = 'abcdefghijklmnopqrstuvwxyz';
+    const symbols = '!@#$%^&*()';
+    let validChars = '';
+
+    if (this.includeLetters) {
+      validChars += letters;
+    }
+    if (this.includeNumbers) {
+      validChars += numbers;
+    }
+    if (this.includeSymbols) {
+      validChars += symbols;
+    }
+
+    let generatedPassword = '';
+    for (let i = 0; i < this.pwdLength; i++) {
+      const index = Math.floor(Math.random() * validChars.length);
+      generatedPassword += validChars[index];
+    }
+    this.password = generatedPassword;
   }
 
   onChangeUseLetters() {
@@ -37,7 +63,6 @@ export class AppComponent {
   }
 
   onChangeUseSymbols() {
-    this.includeSymbols = ! this.includeSymbols;
+    this.includeSymbols = !this.includeSymbols;
   }
-  
 }
